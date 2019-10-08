@@ -1,3 +1,4 @@
+
 Changes in Riot 0.9.7 (2019-XX-XX)
 ===================================================
 
@@ -27,6 +28,7 @@ Other changes:
 Bugfix:
  - Fix reset password broken UI (#3125)
  - Execute 1 request instead of 2 for 3Pid lookup (#3344)
+ - Support Widget API v2 parameters for Jitsi (#3342)
 
 Translations:
  -
