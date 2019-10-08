@@ -64,7 +64,7 @@ public class JitsiCallActivity extends VectorAppCompatActivity implements JitsiM
     /**
      * Base server URL
      */
-    private static final String JITSI_SERVER_URL = "https://jitsi.riot.im/";
+    private static final String JITSI_SERVER_DEFAULT_DOMAIN = "jitsi.riot.im";
 
     // the jitsi view
     private JitsiMeetView mJitsiView;
@@ -121,8 +121,18 @@ public class JitsiCallActivity extends VectorAppCompatActivity implements JitsiM
 
         try {
             Uri uri = Uri.parse(mWidget.getUrl());
-            String confId = uri.getQueryParameter("confId");
-            mCallUrl = JITSI_SERVER_URL + confId;
+            String domain = uri.getQueryParameter("domain");
+            if (domain == null) {
+                domain = JITSI_SERVER_DEFAULT_DOMAIN;
+            }
+            String confId = uri.getQueryParameter("conferenceId");
+            if (confId == null) {
+                confId = uri.getQueryParameter("confId");
+                if (confId == null) {
+                    throw new Exception("No conference ID found");
+                }
+            }
+            mCallUrl = String.format("https://%s/%s", domain, confId);
         } catch (Exception e) {
             Log.e(LOG_TAG, "## onCreate() failed : " + e.getMessage(), e);
             finish();
